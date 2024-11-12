@@ -30,11 +30,11 @@ class MovieCard extends StatelessWidget {
           ),
         ),
         Positioned(
-            left: 15,
-           
-            bottom: 2,
-             top: 0,
-            right: 15,
+            left: 20, 
+                      
+            
+            top: 140,   
+            right: 20,
           child: 
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,

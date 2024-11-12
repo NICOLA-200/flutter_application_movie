@@ -159,7 +159,30 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
 
                           Padding(padding: EdgeInsets.symmetric(vertical: 20),
-                          child: movieListBuilder(popularItemsList),)
+                          child: movieListBuilder(popularItemsList),),
+
+
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "genre",
+                                style: TextStyle(
+                                    color: Colors.white54,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                              Text(
+                                "see all",
+                                style: TextStyle(
+                                    color: kButtonColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300),
+                              )
+                            ],
+                          ),
+
+                          genreBuilder(genresList)
                         ],
                       ),
                     )
@@ -226,5 +249,10 @@ class _HomeScreenState extends State<HomeScreen> {
             return MovieCard(movieModel: movieList[index]);
           }),
     );
+  }
+
+
+  Widget genreBuilder(List<>) {
+
   }
 }
