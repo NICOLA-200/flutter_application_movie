@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -16,10 +18,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   List<MovieModel> itemList = List.of(forYouImages);
+  List<MovieModel> genresItemList = List.of(genresList);
   List<MovieModel> popularItemsList = List.of(popularImages);
   PageController pageController =
       PageController(initialPage: 0, viewportFraction: 0.9);
   int currentPage = 0;
+  List tabBarIcons = [
+    Icons.house,
+    Icons.compass_calibration,
+    Icons.search,
+    Icons.explore
+  ];
 
   @override
   void dispose() {
@@ -133,12 +142,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                     Padding(
+                    Padding(
                       padding:
                           EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                       child: Column(
                         children: [
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
@@ -149,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontWeight: FontWeight.w300),
                               ),
                               Text(
-                                "see all",
+                                "see all all",
                                 style: TextStyle(
                                     color: kButtonColor,
                                     fontSize: 20,
@@ -157,11 +166,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               )
                             ],
                           ),
-
-                          Padding(padding: EdgeInsets.symmetric(vertical: 20),
-                          child: movieListBuilder(popularItemsList),),
-
-
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 0),
+                            child: movieListBuilder(popularItemsList),
+                          ),
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -181,7 +189,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               )
                             ],
                           ),
-
                           genreBuilder(genresList)
                         ],
                       ),
@@ -191,9 +198,35 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Positioned(
-                child: Container(
-              child: Text(""),
-            ))
+                bottom: 35,
+                left: 25,
+                right: 25,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+                    child: Container(
+                      height: 80,
+                      width: MediaQuery.of(context).size.width,
+                      color: kSearchbarColor,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ...tabBarIcons.map((e) =>
+                            
+                             Icon(
+                                e,
+                                color: e == Icons.house
+                                    ? Colors.white
+                                    : Colors.white54,
+                                    size: 30,
+                              
+                            ) )
+                        ],
+                      ),
+                    ),
+                  ),
+                ))
           ],
         ));
   }
@@ -241,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget movieListBuilder(List<MovieModel> movieList) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-      height: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.height * 0.2,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: movieList.length,
@@ -251,8 +284,39 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
-  Widget genreBuilder(List<>) {
-
+  Widget genreBuilder(List<MovieModel> genresList) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+      height: MediaQuery.of(context).size.height * 0.28,
+      child: ListView.builder(
+          itemCount: genresList.length,
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return Stack(
+              children: [
+                Container(
+                  width: 250,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                          image: AssetImage(
+                              genresList[index].imageAsset.toString()))),
+                  margin: const EdgeInsets.all(35),
+                ),
+                Positioned(
+                    bottom: 0,
+                    left: 10,
+                    child: Text(
+                      genresList[index].movieName.toString(),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    ))
+              ],
+            );
+          }),
+    );
   }
 }
