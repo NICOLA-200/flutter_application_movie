@@ -42,10 +42,10 @@ class _DetailScreenState extends State<DetailScreen> {
                           fit: BoxFit.cover)),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
                     children: [
-                      Row(
+                    const  Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
