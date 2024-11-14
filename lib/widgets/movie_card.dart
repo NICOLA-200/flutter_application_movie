@@ -123,14 +123,16 @@ class MovieCard extends StatelessWidget {
         children: [
           Container(
             height: 200,
-            width: 140,
+            width: MediaQuery.of(context).size.width,
             foregroundDecoration: BoxDecoration(
                 gradient: LinearGradient(
                     colors: [Colors.black.withOpacity(0.8), Colors.transparent],
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter)),
-            margin: const EdgeInsets.symmetric(horizontal: 15),
+            margin: const EdgeInsets.symmetric(horizontal: 15, vertical:20 ),
+            
             decoration: BoxDecoration(
+              
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
                 image: NetworkImage(movieModel.imageUrl ?? ''),
