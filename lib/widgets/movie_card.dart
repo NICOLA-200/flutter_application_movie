@@ -102,47 +102,70 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_movie/models/movie_model.dart';
+import 'package:flutter_application_movie/screens/detail_screen.dart';
 
 class MovieCard extends StatelessWidget {
   final MovieModel movieModel;
-
-  MovieCard({super.key, required this.movieModel});
+  const MovieCard({super.key, required this.movieModel});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      decoration: BoxDecoration(
-        color: Colors.grey[850],
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(8),
-        leading: Image.network(
-          movieModel.imageUrl,
-          width: 50,
-          fit: BoxFit.cover,
-        ),
-        title: Text(
-          movieModel.name,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailScreen(movieModel: movieModel),
           ),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Year: ${movieModel.year}',
-              style: const TextStyle(color: Colors.white70),
+        );
+      },
+      child: Stack(
+        children: [
+          Container(
+            height: 200,
+            width: 140,
+            foregroundDecoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter)),
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                image: NetworkImage(movieModel.imageUrl ?? ''),
+                fit: BoxFit.cover,
+              ),
             ),
-            Text(
-              'Rating: ${movieModel.rating}',
-              style: const TextStyle(color: Colors.yellowAccent),
+          ),
+          Positioned(
+            left: 20,
+            top: 100,
+            right: 20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  movieModel.movieName ?? 'N/A',
+                  maxLines: 1,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  movieModel.year ?? 'N/A',
+                  maxLines: 1,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

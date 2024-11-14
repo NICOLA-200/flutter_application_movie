@@ -361,6 +361,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_application_movie/models/movie_model.dart';
 import 'package:flutter_application_movie/widgets/movie_card.dart';
+import 'package:flutter_application_movie/screens/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -392,9 +393,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('TV Show Explorer'),
+    appBar: AppBar(
+        title: const Text('Movies'),
         backgroundColor: Colors.grey[900],
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SearchScreen()),
+              );
+            },
+          ),
+        ],
       ),
       body: FutureBuilder<List<MovieModel>>(
         future: movies,
