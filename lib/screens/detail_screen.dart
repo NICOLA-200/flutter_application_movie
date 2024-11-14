@@ -3,6 +3,8 @@ import 'package:flutter_application_movie/data/movie.dart';
 import 'package:flutter_application_movie/utils/colors.dart';
 import 'package:flutter_application_movie/widgets/cast_card.dart';
 import 'package:readmore/readmore.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
@@ -12,7 +14,8 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  List<MovieModel> popularItems = List.of(popularImages);
+
+  List<MovieModel> popularItems = List.of(forYouImages);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
                     children: [
-                    const  Row(
+                      const Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -196,38 +199,37 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
           ),
           Positioned(
-             top:60,
-             left: 20,
+              top: 60,
+              left: 20,
               child: Container(
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.white38),
-            child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon:const  Icon(
-                  Icons.close,
-                  color: kSearchbarColor,
-                )),
-          )),
-
-           Positioned(
-             bottom:30,
-             left: 30,
-             right: 30,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, color: Colors.white38),
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: kSearchbarColor,
+                    )),
+              )),
+          Positioned(
+              bottom: 30,
+              left: 30,
+              right: 30,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
-                   alignment: Alignment.center,
+                    alignment: Alignment.center,
                     height: 70,
-                  color: kButtonColor,
-                  child: Text("Watch Movie", style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold
-
-                            ),)
-                          ),
+                    color: kButtonColor,
+                    child: Text(
+                      "Watch Movie",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    )),
               ))
         ],
       ),
@@ -255,25 +257,25 @@ class _DetailScreenState extends State<DetailScreen> {
       child: ListView.builder(
         itemCount: popularItems[0].comments!.length,
         scrollDirection: Axis.horizontal,
-        itemBuilder: (context,index) {
+        itemBuilder: (context, index) {
           return Container(
             width: 300,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: kSearchbarColor
-            ),
+                borderRadius: BorderRadius.circular(20),
+                color: kSearchbarColor),
             margin: const EdgeInsets.only(right: 15),
-            padding: const  EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Column(
               children: [
                 Container(
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(image: 
-                    AssetImage(popularItems[0].comments![index]['imageUrl'].toString()))
-                  ),
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: AssetImage(popularItems[0]
+                              .comments![index]['imageUrl']
+                              .toString()))),
                 ),
                 const SizedBox(
                   width: 10,
@@ -281,26 +283,22 @@ class _DetailScreenState extends State<DetailScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(popularItems[0].comments![index]['name'],
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold
-                    ),),
-
+                    Text(
+                      popularItems[0].comments![index]['name'],
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(
                       height: 5,
                     ),
-                    Text(popularItems[0].comments![index]['date'],
-                     style: const TextStyle(
-                      color: Colors.white60
-                     ),
+                    Text(
+                      popularItems[0].comments![index]['date'],
+                      style: const TextStyle(color: Colors.white60),
                     )
-                    
                   ],
                 )
               ],
             ),
-            
           );
         },
       ),

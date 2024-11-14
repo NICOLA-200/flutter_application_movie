@@ -7,6 +7,8 @@ import 'package:flutter_application_movie/data/movie.dart';
 import 'package:flutter_application_movie/utils/colors.dart';
 import 'package:flutter_application_movie/widgets/custom_card.dart';
 import 'package:flutter_application_movie/widgets/movie_card.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,6 +31,32 @@ class _HomeScreenState extends State<HomeScreen> {
     Icons.search,
     Icons.explore
   ];
+
+    List<MovieModel2> itemList2 = [];
+  bool isLoading = true;
+
+
+    @override
+  void initState() {
+    super.initState();
+    fetchMovies();
+  }
+
+  Future<void> fetchMovies() async {
+    final url = Uri.parse("http://api.tvmaze.com/search/shows?q=all");
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+
+      setState(() {
+        itemList2 = data.map((json) => MovieModel2.fromJson(json)).toList();
+        isLoading = false;
+      });
+    } else {
+      throw Exception("Failed to load shows");
+    }
+  }
 
   @override
   void dispose() {
@@ -127,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontWeight: FontWeight.w300),
                       ),
                     ),
-                    CardsLayout(forYouImages),
+                    CardsLayout(itemList2),
                     Align(
                       alignment: Alignment.center,
                       child: Container(
@@ -231,23 +259,29 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 
-  Widget CardsLayout(List<MovieModel> movieList) {
-    return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5,
-        child: PageView.builder(
-            physics: const ClampingScrollPhysics(),
-            controller: pageController,
-            itemCount: movieList.length,
-            itemBuilder: (context, index) {
-              return CustomCard(
-                  imageAsset: movieList[index].imageAsset.toString());
-            },
-            onPageChanged: (int page) {
-              setState(() {
-                currentPage = page;
-              });
-            }));
-  }
+ Widget CardsLayout(List<MovieModel2> movieList) {
+  return SizedBox(
+    height: MediaQuery.of(context).size.height * 0.5,
+    child: PageView.builder(
+      physics: const ClampingScrollPhysics(),
+      controller: pageController,
+      itemCount: movieList.length,
+      itemBuilder: (context, index) {
+        return CustomCard(
+          imageAsset: movieList[index].imageUrl,
+          title: movieList[index].name,
+          
+        );
+      },
+      onPageChanged: (int page) {
+        setState(() {
+          currentPage = page;
+        });
+      },
+    ),
+  );
+}
+
 
   List<Widget> buildPageIndicatorWidget() {
     List<Widget> list = [];

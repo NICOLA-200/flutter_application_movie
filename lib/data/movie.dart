@@ -135,3 +135,32 @@ final genresList = [
   MovieModel(movieName: "Detective", imageAsset: "assets/genres_4.jpeg"),
   MovieModel(movieName: "Action", imageAsset: "assets/genres_5.jpeg"),
 ];
+
+
+
+
+class MovieModel2 {
+  final int id;
+  final String name;
+  final String url;
+  final String summary;
+  final String imageUrl;
+
+  MovieModel2({
+    required this.id,
+    required this.name,
+    required this.url,
+    required this.summary,
+    required this.imageUrl,
+  });
+
+  factory MovieModel2.fromJson(Map<String, dynamic> json) {
+    return MovieModel2(
+      id: json['show']['id'],
+      name: json['show']['name'],
+      url: json['show']['url'],
+      summary: json['show']['summary'] ?? "",
+      imageUrl: json['show']['image']?['medium'] ?? "",
+    );
+  }
+}
