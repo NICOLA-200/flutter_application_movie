@@ -14,6 +14,13 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
+            theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.grey[900],
+        scaffoldBackgroundColor: Colors.black,
+        cardColor: Colors.grey[850],
+   
+      ),
       title: "Movie App",
     );
   }
